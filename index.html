@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0c16" id="meta-theme-color">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CHRIST Psych">
+  <meta name="description" content="CHRIST University M.Sc. Psychology (HRDM) Entrance Exam Prep Platform for Michelle">
+  <title>CHRIST M.Sc. Psychology (HRDM) Entrance Prep — Michelle</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Particle Background -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Mobile Top Bar (Visible on mobile/tablet <= 768px) -->
+  <header id="mobile-topbar" class="mobile-topbar">
+    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open Navigation Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    <div class="mobile-brand">
+      <span class="mobile-brand-icon">🧠</span>
+      <span class="mobile-brand-title">CHRIST Psych HRDM</span>
+    </div>
+    <div class="mobile-actions">
+      <button id="mobile-theme-toggle" class="mobile-icon-btn" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
+        <span class="theme-icon">☀️</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+
+  <!-- Sidebar Component (Desktop Pinned / Mobile Slide-Out Drawer) -->
+  <aside id="sidebar">
+    <div class="sidebar-header-row">
+      <div class="logo-area">
+        <div class="logo-icon">🧠</div>
+        <div>
+          <div class="logo-title">CHRIST Psych HRDM</div>
+          <div class="logo-subtitle">M.Sc. Entrance 2026</div>
+        </div>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="Close Navigation">✕</button>
+    </div>
+
+    <!-- Part Toggle -->
+    <div class="part-toggle-bar">
+      <button class="part-pill active" id="pill-part-all" data-part="all">All Parts</button>
+      <button class="part-pill" id="pill-part-a" data-part="A">Part A (90)</button>
+      <button class="part-pill" id="pill-part-b" data-part="B">Part B (30)</button>
+    </div>
+
+    <!-- Navigation Items -->
+    <ul class="nav-list">
+      <li class="nav-item active" data-target="dashboard">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span>Dashboard</span>
+      </li>
+
+      <li class="nav-item" data-target="hub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+        </svg>
+        <span>Learning Hub</span>
+      </li>
+
+      <li class="nav-item" data-target="arena">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="12" r="6"></circle>
+          <circle cx="12" cy="2" r="2"></circle>
+        </svg>
+        <span>MCQ Arena</span>
+      </li>
+
+      <li class="nav-item" data-target="mastery">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        <span>Mastery Tracker</span>
+      </li>
+
+      <li class="nav-item" data-target="flashcards">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <span>Flashcards</span>
+      </li>
+
+      <li class="nav-item" data-target="mock">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>120-Q Mock Exam</span>
+      </li>
+
+      <li class="nav-item" data-target="bank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+        </svg>
+        <span>Question Bank</span>
+      </li>
+
+      <li class="nav-item" data-target="settings" style="margin-top: auto;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        <span>Settings & AI</span>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Views Container -->
+  <main id="main-content">
+
+    <!-- ======================================================== -->
+    <!-- VIEW 1: DASHBOARD                                        -->
+    <!-- ======================================================== -->
+    <section id="view-dashboard" class="view-container fade-in">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h1 class="text-cyan">Welcome, <span id="dash-user-name">Michelle</span></h1>
+          <p class="text-muted">Target: CHRIST University M.Sc. Psychology (HRDM) · App #272982079</p>
+        </div>
+        <div class="card exam-date-card">
+          <div class="exam-date-label">EXAM DATE</div>
+          <div class="exam-date-val">5 Dec 2026</div>
+          <div class="exam-date-sub" id="countdown-timer">Online Proctored</div>
+        </div>
+      </div>
+
+      <!-- Part Scope Banner -->
+      <div id="dash-scope-banner" class="card dash-scope-banner">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.4rem;">🎯</span>
+          <div>
+            <div class="dash-scope-title" id="dash-scope-title">Viewing: All Exam Sections (Part A + Part B: 120 Marks)</div>
+            <div class="dash-scope-sub" id="dash-scope-sub">Full Syllabus · 33 Topics · 360 Questions Available (100% Offline)</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-cyan" style="padding: 6px 14px; font-size: 0.82rem;" id="dash-btn-part-drill" onclick="quickStartDrill(10)">Start Part Drill</button>
+        </div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="grid-4" style="margin-bottom: 32px;">
+        <div class="card">
+          <div class="text-muted" style="font-size: 0.85rem;">Topics Mastered</div>
+          <div style="font-size: 2.2rem; font-weight: 700; margin-top: 6px;" id="stat-topics-mastered">0 / 33</div>
+          <div style="font-size: 0.75rem; color: var(--cyan); margin-top: 4px;" id="stat-topics-sub">Syllabus coverage</div>
+        </div>
+        <div class="card">
+          <div class="text-muted" style="font-size: 0.85rem;">MCQs Attempted</div>
+          <div style="font-size: 2.2rem; font-weight: 700; margin-top: 6px;" id="stat-attempted">0</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Seed & custom questions</div>
+        </div>
+        <div class="card">
+          <div class="text-muted" style="font-size: 0.85rem;">Overall Accuracy</div>
+          <div style="font-size: 2.2rem; font-weight: 700; margin-top: 6px; color: var(--green);" id="stat-accuracy">0%</div>
+          <div style="font-size: 0.75rem; color: var(--green); margin-top: 4px;">With -0.25 penalty factor</div>
+        </div>
+        <div class="card">
+          <div class="text-muted" style="font-size: 0.85rem;">Study Streak</div>
+          <div style="font-size: 2.2rem; font-weight: 700; margin-top: 6px; color: var(--cyan);" id="stat-streak">1 day</div>
+          <div style="font-size: 0.75rem; color: var(--cyan); margin-top: 4px;">Keep momentum active!</div>
+        </div>
+      </div>
+
+      <!-- Weak Topics Alert & Quick Actions -->
+      <div class="grid-2">
+        <div class="card" id="weak-topics-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h3 style="margin:0; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
+              <span>🎯</span> Focus Areas & Gaps
+            </h3>
+            <span class="text-muted" style="font-size:0.75rem; font-family:var(--font-mono);">AI Diagnostic</span>
+          </div>
+          <div id="dash-weak-topics-list">
+            <p class="text-muted" style="font-size:0.9rem;">Complete a few MCQs in the Arena to allow AI to identify your conceptual gaps.</p>
+          </div>
+          <button class="btn btn-cyan" style="width:100%; margin-top:16px;" onclick="switchView('mastery')">View Full Mastery Heatmap</button>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 16px 0; font-size:1.1rem;">⚡ Quick Actions</h3>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <button class="btn btn-primary" id="dash-quick-drill-btn" onclick="quickStartDrill(10)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span>Quick 10-Question Drill (Mixed)</span>
+            </button>
+            <button class="btn" onclick="switchView('hub')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+              Browse Learning Hub (Part A & B)
+            </button>
+            <button class="btn" onclick="switchView('mock')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              Simulate 120-Q Proctored Mock (90 min)
+            </button>
+            <button class="btn" onclick="switchView('flashcards')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+              Review Due Spaced Flashcards (<span id="dash-fc-count">0</span>)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 2: LEARNING HUB                                     -->
+    <!-- ======================================================== -->
+    <section id="view-hub" class="view-container hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h1>Learning Hub</h1>
+          <p class="text-muted">Master Part A (Core Psych & Research) and Part B (HRM & I/O Psychology) concept-by-concept.</p>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap: wrap;">
+          <button class="btn btn-cyan" id="hub-btn-ai-generate">
+            <span>✨</span> Generate 5 AI MCQs
+          </button>
+          <button class="btn btn-primary" id="hub-btn-drill-topic">
+            <span>🎯</span> Drill This Topic
+          </button>
+        </div>
+      </div>
+
+      <div class="hub-layout">
+        <!-- Topic Selection Sidebar -->
+        <div class="hub-sidebar" id="hub-topic-list"></div>
+
+        <!-- Right Content Panel -->
+        <div class="hub-content-panel" id="hub-content-area"></div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 3: MCQ ARENA                                        -->
+    <!-- ======================================================== -->
+    <section id="view-arena" class="view-container hidden">
+      <!-- Arena Config View -->
+      <div id="arena-config" class="card" style="max-width: 800px; margin: 0 auto;">
+        <h2>🎯 MCQ Practice Arena</h2>
+        <p class="text-muted" style="margin-bottom: 24px;">Configure your custom drill session to master topics under pressure.</p>
+
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600;">Select Scope / Subject</label>
+          <select id="arena-scope-select">
+            <option value="all">Full Syllabus (Part A + Part B)</option>
+            <option value="part_a">Part A Only: General & Core Psychology (90 marks)</option>
+            <option value="part_b">Part B Only: HRM & I/O Psychology (30 marks)</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 600;">Number of Questions: <span id="arena-num-display" class="text-cyan">15</span></label>
+          <input type="range" id="arena-num-slider" min="5" max="60" step="5" value="15" style="width: 100%;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+            <span>5 Qs</span><span>15 Qs</span><span>30 Qs</span><span>60 Qs</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+          <label style="display: block; margin-bottom: 12px; font-weight: 600;">Session Mode</label>
+          <div class="grid-3" style="gap: 14px;">
+            <div class="card arena-mode-card active" data-mode="immediate" style="cursor: pointer; padding: 16px; border: 2px solid var(--cyan);">
+              <h4 class="text-cyan">Study Mode</h4>
+              <p class="text-muted" style="font-size: 0.82rem; margin-top: 6px;">Immediate answers & explanations after each selection.</p>
+            </div>
+            <div class="card arena-mode-card" data-mode="timed" style="cursor: pointer; padding: 16px;">
+              <h4>Timed Pressure</h4>
+              <p class="text-muted" style="font-size: 0.82rem; margin-top: 6px;">45 seconds per question. Simulates test pacing.</p>
+            </div>
+            <div class="card arena-mode-card" data-mode="test" style="cursor: pointer; padding: 16px;">
+              <h4>Test Mode</h4>
+              <p class="text-muted" style="font-size: 0.82rem; margin-top: 6px;">No feedback until final submission. Results at the end.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 28px;">
+          <input type="checkbox" id="arena-negative-marking" checked style="width: 18px; height: 18px; accent-color: var(--cyan); cursor: pointer;">
+          <label for="arena-negative-marking" style="font-size: 0.9rem; cursor: pointer;">Apply Official Negative Marking (+1 for correct, -0.25 for incorrect)</label>
+        </div>
+
+        <button class="btn btn-primary" id="arena-btn-start" style="width: 100%; padding: 14px; font-size: 1.05rem;">Start Practice Drill</button>
+      </div>
+
+      <!-- Arena Active Question Screen -->
+      <div id="arena-active" class="hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+          <div class="text-muted" style="font-family: var(--font-mono); font-size: 0.95rem;">
+            Question <span id="arena-q-curr" class="text-cyan">1</span> of <span id="arena-q-total">15</span>
+          </div>
+          <div id="arena-timer" style="font-size: 1.3rem; font-family: var(--font-mono); font-weight: 700; color: var(--green);">00:00</div>
+          <button class="btn btn-danger" id="arena-btn-quit" style="padding: 6px 14px; font-size: 0.85rem;">Quit Drill</button>
+        </div>
+
+        <div class="card question-box">
+          <div class="q-badge" id="arena-q-badge">TOPIC: BASIC PSYCHOLOGY</div>
+          <div class="q-text" id="arena-q-text">Loading question text...</div>
+          <div class="options-list" id="arena-options-container"></div>
+
+          <!-- Explanation Panel -->
+          <div id="arena-explanation-box" class="explanation-panel hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <strong class="text-cyan">Conceptual Explanation:</strong>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn-cyan" id="arena-btn-add-fc" style="padding: 4px 10px; font-size: 0.78rem;">Add to Flashcards</button>
+                <button class="btn" id="arena-btn-ai-explain" style="padding: 4px 10px; font-size: 0.78rem;">✨ AI: Explain Simply</button>
+              </div>
+            </div>
+            <p id="arena-explanation-text" style="margin: 0;"></p>
+            <div id="arena-ai-explain-response" class="hidden" style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-color);"></div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 10px;">
+            <button class="btn" id="arena-btn-prev">Previous</button>
+            <button class="btn btn-primary" id="arena-btn-next">Next Question</button>
+          </div>
+        </div>
+
+        <!-- Question Palette -->
+        <div class="card" style="margin-top: 20px; padding: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="font-size: 0.85rem; font-weight: 600;">Question Navigation Palette</div>
+            <button class="btn btn-cyan" id="arena-btn-finish" style="padding: 6px 14px; font-size: 0.85rem;">Finish & Submit</button>
+          </div>
+          <div class="palette-grid" id="arena-palette"></div>
+        </div>
+      </div>
+
+      <!-- Arena Results Screen -->
+      <div id="arena-results" class="hidden card" style="max-width: 900px; margin: 0 auto; text-align: center;">
+        <h1 class="text-cyan" id="arena-res-score-pct" style="font-size: 3.5rem; margin-bottom: 4px;">0%</h1>
+        <p class="text-muted" id="arena-res-summary" style="font-size: 1.1rem; margin-bottom: 28px;">You scored 0 out of 0</p>
+
+        <div class="grid-4" style="margin-bottom: 32px;">
+          <div class="card" style="padding: 16px;">
+            <div class="text-muted" style="font-size: 0.8rem;">Correct (+1.0)</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--green);" id="arena-res-correct">0</div>
+          </div>
+          <div class="card" style="padding: 16px;">
+            <div class="text-muted" style="font-size: 0.8rem;">Wrong (-0.25)</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--red);" id="arena-res-wrong">0</div>
+          </div>
+          <div class="card" style="padding: 16px;">
+            <div class="text-muted" style="font-size: 0.8rem;">Skipped (0.0)</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-muted);" id="arena-res-skipped">0</div>
+          </div>
+          <div class="card" style="padding: 16px;">
+            <div class="text-muted" style="font-size: 0.8rem;">Net Marks</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--cyan);" id="arena-res-net">0.0</div>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:center; gap:16px; margin-bottom: 32px; flex-wrap: wrap;">
+          <button class="btn btn-primary" onclick="restartArena()">Practice Again</button>
+          <button class="btn" onclick="switchView('mastery')">Inspect Updated Gaps</button>
+        </div>
+
+        <h3 style="text-align: left; margin-bottom: 16px;">Detailed Question Review</h3>
+        <div id="arena-res-review-list" style="text-align: left; display: flex; flex-direction: column; gap: 14px;"></div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 4: MASTERY TRACKER                                  -->
+    <!-- ======================================================== -->
+    <section id="view-mastery" class="view-container hidden">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h1>Mastery Tracker & Gap Analysis</h1>
+          <p class="text-muted">Live diagnostic map of your conceptual competence across all Part A and Part B syllabus areas.</p>
+        </div>
+        <button class="btn btn-primary" id="btn-run-ai-gap">
+          <span>🧠</span> Run AI Diagnostic Gap Analysis
+        </button>
+      </div>
+
+      <!-- AI Analysis Result Modal / Card -->
+      <div id="ai-gap-results-card" class="card hidden" style="margin-bottom: 28px; border-left: 4px solid var(--accent-color);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 class="ai-prescription-title" style="margin: 0;">✨ Gemini AI Personal Study Prescription</h3>
+          <button class="btn" onclick="document.getElementById('ai-gap-results-card').classList.add('hidden')" style="padding: 4px 8px;">✕</button>
+        </div>
+        <div id="ai-gap-content" style="line-height: 1.7; font-size: 0.94rem;"></div>
+      </div>
+
+      <!-- Heatmap Summary Legend -->
+      <div style="display: flex; gap: 16px; margin-bottom: 16px; font-size: 0.85rem; flex-wrap: wrap;">
+        <span style="display:flex; align-items:center; gap:6px;"><span style="width:12px; height:12px; border-radius:3px; background:var(--green);"></span> Mastered (>75%)</span>
+        <span style="display:flex; align-items:center; gap:6px;"><span style="width:12px; height:12px; border-radius:3px; background:var(--yellow);"></span> Developing (60-75%)</span>
+        <span style="display:flex; align-items:center; gap:6px;"><span style="width:12px; height:12px; border-radius:3px; background:var(--red);"></span> Critical Gap (<60%)</span>
+        <span style="display:flex; align-items:center; gap:6px;"><span style="width:12px; height:12px; border-radius:3px; background:var(--border-color);"></span> Unattempted</span>
+      </div>
+
+      <!-- Heatmap Grid -->
+      <div class="heatmap-grid" id="mastery-heatmap-container"></div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 5: FLASHCARDS                                       -->
+    <!-- ======================================================== -->
+    <section id="view-flashcards" class="view-container hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h1>Spaced Repetition Flashcards</h1>
+          <p class="text-muted">Supermemo-2 spaced interval training to lock terminology and theories into long-term memory.</p>
+        </div>
+        <button class="btn btn-cyan" id="fc-btn-generate-ai">
+          <span>✨</span> Generate AI Flashcards
+        </button>
+      </div>
+
+      <!-- Flashcard Interactive Study Area -->
+      <div id="fc-study-box" class="hidden">
+        <div style="text-align: center; margin-bottom: 12px; font-size: 0.9rem; color: var(--cyan); font-family: var(--font-mono);">
+          Cards Due for Review: <span id="fc-due-num">0</span>
+        </div>
+
+        <div class="flashcard-box" id="active-fc-card">
+          <div class="flashcard-inner">
+            <div class="flashcard-face">
+              <div id="fc-front-text" style="font-size: 1.35rem; font-weight: 500; line-height: 1.5;">Front Text</div>
+              <div class="text-muted" style="position: absolute; bottom: 20px; font-size: 0.8rem;">Click card to flip ↺</div>
+            </div>
+            <div class="flashcard-face flashcard-back">
+              <div id="fc-back-text" style="font-size: 1.05rem; line-height: 1.6;">Back Text</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fc-actions hidden" id="fc-buttons-row">
+          <button class="btn btn-danger" onclick="handleFCResponse('hard')">Hard (Review Soon)</button>
+          <button class="btn" onclick="handleFCResponse('good')">Good</button>
+          <button class="btn" style="color:var(--green); border-color:rgba(16,185,129,0.4);" onclick="handleFCResponse('easy')">Easy (Mastered)</button>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div id="fc-empty-state" class="card" style="text-align: center; padding: 50px 24px; margin-bottom: 32px;">
+        <h3 class="text-green">All Caught Up! 🎉</h3>
+        <p class="text-muted" style="margin-top: 8px;">No cards are currently due for review. You can add more from question reviews or generate new ones using AI.</p>
+      </div>
+
+      <!-- Flashcards Library Buckets -->
+      <h2>Your Deck Library (<span id="fc-total-count">0</span> cards)</h2>
+      <div id="fc-buckets-grid" class="grid-4" style="margin-top: 16px;"></div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 6: 120-Q MOCK EXAM                                  -->
+    <!-- ======================================================== -->
+    <section id="view-mock" class="view-container hidden">
+      <!-- Mock Briefing Screen -->
+      <div id="mock-briefing" class="card" style="max-width: 800px; margin: 0 auto;">
+        <h2>CHRIST M.Sc. Psychology Entrance Simulation</h2>
+        <div class="proctor-banner">
+          <span style="font-size: 1.5rem;">⚠️</span>
+          <div>
+            <strong>AI & Human Remote Proctoring Simulation</strong><br>
+            Official conditions: 90 Minutes · 120 Questions · Negative marking: +1 for correct, -0.25 for incorrect. No headphones or tab-switching allowed.
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 24px; font-size: 0.9rem;">
+          <div class="mock-part-card">
+            <strong class="text-cyan">PART A: General & Core (90 Marks)</strong>
+            <ul style="margin: 8px 0 0 16px; color: var(--text-muted); line-height: 1.6;">
+              <li>Basic Psychology (30 Qs)</li>
+              <li>Research Aptitude (15 Qs)</li>
+              <li>Ethical Concerns (15 Qs)</li>
+              <li>General Aptitude (15 Qs)</li>
+              <li>Current Affairs & GK (15 Qs)</li>
+            </ul>
+          </div>
+          <div class="mock-part-card">
+            <strong class="text-cyan">PART B: Specialisation (30 Marks)</strong>
+            <ul style="margin: 8px 0 0 16px; color: var(--text-muted); line-height: 1.6;">
+              <li>Human Resource Management (15 Qs)</li>
+              <li>Industrial / Org Psychology (15 Qs)</li>
+            </ul>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="btn-start-full-mock" style="width: 100%; padding: 16px; font-size: 1.1rem;">
+          Start Full 120-Question Mock Exam
+        </button>
+      </div>
+
+      <!-- Mock Active Exam Screen -->
+      <div id="mock-active" class="hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <span class="text-muted" style="font-family: var(--font-mono);">Question <span id="mock-q-current">1</span> of 120</span>
+            <span id="mock-section-tag" class="term-tag" style="margin-left: 10px;">Basic Psychology</span>
+          </div>
+          <div id="mock-timer" style="font-size: 1.8rem; font-family: var(--font-mono); font-weight: 700; color: var(--green);">90:00</div>
+          <button class="btn btn-danger" id="mock-btn-submit-early">Submit Test</button>
+        </div>
+
+        <div class="card question-box">
+          <div class="q-text" id="mock-q-text">Loading question...</div>
+          <div class="options-list" id="mock-options-container"></div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 10px;">
+            <button class="btn" id="mock-btn-prev">Previous</button>
+            <button class="btn btn-primary" id="mock-btn-next">Next</button>
+          </div>
+        </div>
+
+        <!-- Palette -->
+        <div class="card" style="margin-top: 20px; padding: 16px;">
+          <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 10px;">Exam Question Palette (120 Questions)</div>
+          <div class="palette-grid" id="mock-palette" style="max-height: 180px;"></div>
+        </div>
+      </div>
+
+      <!-- Mock Results Screen -->
+      <div id="mock-results" class="hidden card" style="max-width: 900px; margin: 0 auto; text-align: center;">
+        <h1 class="text-cyan" id="mock-res-net" style="font-size: 3.8rem; margin-bottom: 4px;">0.0 / 120</h1>
+        <p class="text-muted" id="mock-res-sub" style="font-size: 1.1rem; margin-bottom: 28px;">Exam Completed</p>
+
+        <div class="grid-4" style="margin-bottom: 32px;">
+          <div class="card" style="padding: 16px;">
+            <div class="text-muted" style="font-size: 0.8rem;">Correct (+1)</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--green);" id="mock-res-correct">0</div>
+          </div>
+          <div class="card" style="padding: 16px;">
+            <div class="text-muted" style="font-size: 0.8rem;">Wrong (-0.25)</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--red);" id="mock-res-wrong">0</div>
+          </div>
+          <div class="card" style="padding: 16px;">
+            <div class="text-muted" style="font-size: 0.8rem;">Skipped</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--text-muted);" id="mock-res-skipped">0</div>
+          </div>
+          <div class="card" style="padding: 16px;">
+            <div class="text-muted" style="font-size: 0.8rem;">Accuracy</div>
+            <div style="font-size: 1.8rem; font-weight: 700; color: var(--cyan);" id="mock-res-accuracy">0%</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="switchView('mastery')" style="margin-bottom: 32px;">Inspect Diagnostic Impact</button>
+        <div id="mock-res-review-container" style="text-align: left; display: flex; flex-direction: column; gap: 14px;"></div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 7: QUESTION BANK & CREATOR                          -->
+    <!-- ======================================================== -->
+    <section id="view-bank" class="view-container hidden">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <h1>📚 Master Question Bank</h1>
+          <p class="text-muted">360 authentic, syllabus-aligned questions across all 7 CHRIST M.Sc. Psychology (HRDM) blueprint units. 100% offline.</p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn btn-cyan" id="bank-btn-add-q">➕ Add Question</button>
+          <button class="btn" id="bank-btn-bulk-import">📥 Bulk Import</button>
+          <button class="btn" id="bank-btn-export">📤 Export Bank (.JSON)</button>
+        </div>
+      </div>
+
+      <!-- Add Question Drawer / Form (Hidden by default) -->
+      <div id="bank-add-panel" class="card hidden" style="margin-bottom: 24px; border: 1px solid var(--cyan); background: var(--surface2-color);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h3 style="color: var(--cyan); margin: 0;">➕ Add New Custom Question</h3>
+          <button class="btn" id="bank-close-add" style="padding: 4px 10px; font-size: 0.8rem;">Cancel</button>
+        </div>
+        <div class="grid-2" style="margin-bottom: 14px;">
+          <div>
+            <label class="text-muted" style="display: block; font-size: 0.8rem; margin-bottom: 4px;">Unit</label>
+            <select id="bank-new-unit"></select>
+          </div>
+          <div>
+            <label class="text-muted" style="display: block; font-size: 0.8rem; margin-bottom: 4px;">Topic</label>
+            <select id="bank-new-topic"></select>
+          </div>
+        </div>
+        <div style="margin-bottom: 14px;">
+          <label class="text-muted" style="display: block; font-size: 0.8rem; margin-bottom: 4px;">Question Text</label>
+          <textarea id="bank-new-question" rows="2" placeholder="Enter clear question stem..."></textarea>
+        </div>
+        <div class="grid-2" style="margin-bottom: 14px;">
+          <div>
+            <label class="text-muted" style="display: block; font-size: 0.8rem; margin-bottom: 4px;">Option A</label>
+            <input type="text" id="bank-new-opt-a" placeholder="Option A text">
+          </div>
+          <div>
+            <label class="text-muted" style="display: block; font-size: 0.8rem; margin-bottom: 4px;">Option B</label>
+            <input type="text" id="bank-new-opt-b" placeholder="Option B text">
+          </div>
+          <div>
+            <label class="text-muted" style="display: block; font-size: 0.8rem; margin-bottom: 4px;">Option C</label>
+            <input type="text" id="bank-new-opt-c" placeholder="Option C text">
+          </div>
+          <div>
+            <label class="text-muted" style="display: block; font-size: 0.8rem; margin-bottom: 4px;">Option D</label>
+            <input type="text" id="bank-new-opt-d" placeholder="Option D text">
+          </div>
+        </div>
+        <div class="grid-2" style="margin-bottom: 14px;">
+          <div>
+            <label class="text-muted" style="display: block; font-size: 0.8rem; margin-bottom: 4px;">Correct Answer</label>
+            <select id="bank-new-answer">
+              <option value="a">Option A</option>
+              <option value="b">Option B</option>
+              <option value="c">Option C</option>
+              <option value="d">Option D</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-muted" style="display: block; font-size: 0.8rem; margin-bottom: 4px;">Explanation</label>
+            <textarea id="bank-new-explanation" rows="2" placeholder="Why this answer is correct..."></textarea>
+          </div>
+        </div>
+        <button class="btn btn-cyan" id="bank-save-new-q">Save Question to Bank</button>
+      </div>
+
+      <!-- Bulk Import Drawer (Hidden by default) -->
+      <div id="bank-import-panel" class="card hidden bank-import-panel" style="margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 class="bank-import-title" style="margin: 0;">📥 Bulk Import Questions (JSON or Plain Text)</h3>
+          <button class="btn" id="bank-close-import" style="padding: 4px 10px; font-size: 0.8rem;">Cancel</button>
+        </div>
+        <p class="text-muted" style="font-size: 0.82rem; margin-bottom: 12px;">
+          Paste a JSON array of questions, OR simple text blocks in format:<br>
+          <code>Q: Question? | A: opt1 | B: opt2 | C: opt3 | D: opt4 | ANS: a | EXP: reason | UNIT: Basic Psychology | TOPIC: history_schools</code>
+        </p>
+        <textarea id="bank-import-text" rows="6" style="font-family: var(--font-mono); font-size: 0.82rem; margin-bottom: 14px;" placeholder="Paste JSON or text format here..."></textarea>
+        <button class="btn btn-primary" id="bank-run-import">Parse & Add Questions</button>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="card" style="padding: 16px; margin-bottom: 20px;">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+          <input type="text" id="bank-search" placeholder="🔍 Search questions, concepts, theorists..." style="flex: 1; min-width: 200px;">
+          <select id="bank-unit-filter" style="width: auto; min-width: 180px;">
+            <option value="all">All Units (360 Qs)</option>
+            <option value="Basic Psychology">Basic Psychology (90 Qs)</option>
+            <option value="Research Aptitude">Research Aptitude (45 Qs)</option>
+            <option value="Ethical Concerns">Ethical Concerns (45 Qs)</option>
+            <option value="General Aptitude">General Aptitude (45 Qs)</option>
+            <option value="Current Affairs & GK">Current Affairs & GK (45 Qs)</option>
+            <option value="Human Resource Management">Human Resource Management (45 Qs)</option>
+            <option value="I/O Psychology">I/O Psychology (45 Qs)</option>
+          </select>
+          <select id="bank-source-filter" style="width: auto; min-width: 140px;">
+            <option value="all">All Sources</option>
+            <option value="seed">Curated Seed Bank</option>
+            <option value="custom">My Custom Added</option>
+          </select>
+        </div>
+        <div style="display: flex; gap: 14px; margin-top: 12px; font-size: 0.82rem; color: var(--text-muted); flex-wrap: wrap;">
+          <span>Showing: <strong id="bank-count-showing" style="color: var(--cyan);">360</strong> questions</span>
+          <span>•</span>
+          <span>Part A: <strong>270</strong></span>
+          <span>•</span>
+          <span>Part B: <strong>90</strong></span>
+          <span>•</span>
+          <span id="bank-custom-count-tag">Custom: <strong>0</strong></span>
+        </div>
+      </div>
+
+      <!-- Questions List -->
+      <div id="bank-questions-list" style="display: flex; flex-direction: column; gap: 14px;"></div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VIEW 8: SETTINGS & AI                                    -->
+    <!-- ======================================================== -->
+    <section id="view-settings" class="view-container hidden">
+      <h1>Settings & Gemini AI Setup</h1>
+      <p class="text-muted" style="margin-bottom: 24px;">Configure your personalized prep parameters and Gemini API credentials.</p>
+
+      <div class="card" style="max-width: 650px;">
+        <h3 style="margin-bottom: 16px;">Candidate Profile</h3>
+        <div style="margin-bottom: 16px;">
+          <label class="text-muted" style="display: block; margin-bottom: 6px; font-size: 0.85rem;">Candidate Name</label>
+          <input type="text" id="setting-name" value="Michelle Josephine E">
+        </div>
+
+        <div style="margin-bottom: 28px;">
+          <label class="text-muted" style="display: block; margin-bottom: 6px; font-size: 0.85rem;">Appearance & Theme</label>
+          <button class="btn" id="theme-toggle">Switch Dark / Light Theme</button>
+        </div>
+
+        <h3 style="margin-bottom: 8px;">Gemini AI Integration</h3>
+        <p class="text-muted" style="font-size: 0.85rem; line-height: 1.6; margin-bottom: 14px;">
+          Provide your free Google Gemini API key to unlock on-demand MCQ generation, personalized Socratic error explanations, and automated flashcards. Your key stays 100% private in your browser's localStorage.
+        </p>
+        <div style="margin-bottom: 16px;">
+          <label class="text-muted" style="display: block; margin-bottom: 6px; font-size: 0.85rem;">Gemini Model</label>
+          <select id="setting-model" style="font-size: 0.9rem;">
+            <option value="gemini-3.8-flash" selected>Gemini 3.8 Flash (Recommended - Fastest & Latest)</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <label class="text-muted" style="display: block; margin-bottom: 6px; font-size: 0.85rem;">API Key</label>
+          <input type="password" id="setting-api-key" placeholder="AIzaSy...">
+        </div>
+        <div style="display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;">
+          <button class="btn btn-cyan" id="btn-save-key">Save Settings</button>
+          <button class="btn" id="btn-test-key">Test Connection</button>
+        </div>
+
+        <h3 style="color: var(--red); margin-bottom: 8px;">Danger Zone</h3>
+        <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 12px;">Reset all study statistics, mastery logs, and flashcards to start fresh.</p>
+        <button class="btn btn-danger" id="btn-reset-data">Reset All Data & Progress</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar (Fixed for thumb navigation on phones) -->
+  <nav id="mobile-bottom-nav" class="mobile-bottom-nav">
+    <button class="mob-nav-item active" data-target="dashboard">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"></rect>
+        <rect x="14" y="3" width="7" height="7"></rect>
+        <rect x="14" y="14" width="7" height="7"></rect>
+        <rect x="3" y="14" width="7" height="7"></rect>
+      </svg>
+      <span>Home</span>
+    </button>
+    <button class="mob-nav-item" data-target="hub">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+      </svg>
+      <span>Hub</span>
+    </button>
+    <button class="mob-nav-item" data-target="arena">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <circle cx="12" cy="12" r="6"></circle>
+        <circle cx="12" cy="2" r="2"></circle>
+      </svg>
+      <span>Arena</span>
+    </button>
+    <button class="mob-nav-item" data-target="mock">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      <span>Mock</span>
+    </button>
+    <button class="mob-nav-item" data-target="bank">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+      </svg>
+      <span>Bank</span>
+    </button>
+  </nav>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="data_concepts.js"></script>
+  <script src="data_mcqs.js"></script>
+  <script src="ai.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
